@@ -28,6 +28,13 @@
   animation: fadeIn 0.8s ease-out;
 }
 
+.logo-image {
+  max-width: 150px;
+  height: auto;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.8s ease-out;
+}
+
 .logo-mock {
   font-family: 'Times New Roman', serif;
   font-size: 3rem;
