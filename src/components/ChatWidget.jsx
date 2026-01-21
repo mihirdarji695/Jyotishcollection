@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, ChevronRight, Check, Compass } from 'lucide-react';
 import './ChatWidget.css';
 
+// Profile image will be displayed as a data URL or imported image
+const PROFILE_IMAGE_URL = '/src/assets/profile-image.png';
+
 const BotAvatar = () => (
   <div className="bot-avatar">
     <span>JC</span>
@@ -165,9 +168,16 @@ const ChatWidget = () => {
         }
 
         botResponse.products = relevantProducts;
+        botResponse.showProfileImage = true;
       }
       else if (['co-ords', 'anarkali', 'dupatta sets', 'kurti pant set', 'festive'].some(cat => lowerText.includes(cat)) || lowerText.includes('interested in')) {
         botResponse.text = `Great choice! These styles are trending right now. Which color do you prefer?`;
+        botResponse.optionsType = 'dropdown';
+        botResponse.options = ["Navy Blue", "Fuchsia", "Sunshine Yellow", "Powder Blue", "Jet Black"];
+      }
+      else if (['co-ords', 'anarkali', 'dupatta', 'kurti', 'festive', 'set'].some(cat => lowerText.includes(cat))) {
+        // Broad catch-all for typed categories
+        botResponse.text = `Excellent choice! Which color matches your vibe today?`;
         botResponse.optionsType = 'dropdown';
         botResponse.options = ["Navy Blue", "Fuchsia", "Sunshine Yellow", "Powder Blue", "Jet Black"];
       }
@@ -271,7 +281,7 @@ const ChatWidget = () => {
 
                   {/* Product Carousel Demo */}
                   {msg.products && (
-                    <ProductCarousel products={msg.products} onShopNow={handleActionClick} />
+                    <ProductCarousel products={msg.products} onShopNow={handleActionClick} showProfileImage={msg.showProfileImage} />
                   )}
 
                   <span className="message-time">{msg.timestamp}</span>
@@ -404,7 +414,7 @@ const ColorSelector = ({ options, onSelect }) => {
 };
 
 // Sub-component for Product Carousel
-const ProductCarousel = ({ products, onShopNow }) => {
+const ProductCarousel = ({ products, onShopNow, showProfileImage }) => {
   return (
     <div className="product-carousel" style={{
       marginTop: '12px',
@@ -428,7 +438,7 @@ const ProductCarousel = ({ products, onShopNow }) => {
         }}>
           <div style={{ height: '250px', background: '#f0f0f0', position: 'relative' }}>
             <img
-              src={product.image}
+              src={showProfileImage ? PROFILE_IMAGE_URL : product.image}
               alt={product.name}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               onError={(e) => { e.target.src = 'https://via.placeholder.com/220x250?text=Image+Unavailable' }}

@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import ChatWidget from './components/ChatWidget';
+import logoImage from './assets/logo.png';
 
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
 
       <div className="content-wrapper">
         <header className="demo-header">
-          <div className="logo-mock">JC</div>
+          <img src={logoImage} alt="Jyoties Collection Logo" className="logo-image" />
           <h1>Jyoties Collection</h1>
           <p className="demo-tagline">Experience our new AI Shopping Assistant</p>
         </header>
